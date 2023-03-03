@@ -5,8 +5,10 @@ import img1 from "../public/images/1.jpg";
 import img2 from "../public/images/2.jpg";
 import img3 from "../public/images/3.jpg";
 import img4 from "../public/images/4.jpg";
+import img5 from "../public/images/5.jpg";
+import img6 from "../public/images/6.jpg";
 
-const images = [img1, img2, img3, img4];
+const images = [img1, img2, img3, img4, img5, img6];
 
 export default function Home() {
 	const [imageIndex, setImageIndex] = useState(0);
@@ -18,6 +20,16 @@ export default function Home() {
 	}, [imageIndex]);
 
 	function changeCurrentImageIndex(offset: number) {
+		if (imageIndex === 0 && offset === -1) {
+			setImageIndex(images.length - 1);
+			return;
+		}
+
+		if (imageIndex === images.length - 1 && offset === 1) {
+			setImageIndex(0);
+			return;
+		}
+
 		setImageIndex((i) => i + offset);
 	}
 
@@ -35,22 +47,21 @@ export default function Home() {
 					Simple Carousel
 				</h1>
 
-				<div className="relative flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-16">
+				<div className="relative mx-2 flex max-w-xl snap-x snap-mandatory items-center gap-4 overflow-auto rounded-md sm:overflow-hidden">
 					{images.map((img, index) => (
 						<img
 							ref={imageIndex === index ? imageRef : null}
-							className="aspect-video snap-center snap-always rounded-md"
+							className="aspect-video snap-center snap-always rounded-md object-cover"
 							src={img.src}
 							alt="nature"
 							key={index}
 						/>
 					))}
 
-					<div className="fixed inset-x-0 flex w-screen items-center justify-between p-2">
+					<div className="fixed inset-x-0 mx-auto flex w-full max-w-3xl items-center justify-between p-4 sm:p-4">
 						<button
 							onClick={() => changeCurrentImageIndex(-1)}
-							disabled={imageIndex === 0}
-							className="flex items-center justify-center rounded-full bg-white/60 p-2 text-neutral-900 backdrop-blur-md disabled:opacity-70"
+							className="flex items-center justify-center rounded-md bg-neutral-100 p-2 text-neutral-900 shadow-md disabled:opacity-70"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +81,7 @@ export default function Home() {
 
 						<button
 							onClick={() => changeCurrentImageIndex(1)}
-							disabled={imageIndex === images.length - 1}
-							className="flex items-center justify-center rounded-full bg-white/60 p-2 text-neutral-900 backdrop-blur-md disabled:opacity-70"
+							className="flex items-center justify-center rounded-md bg-neutral-100 p-2 text-neutral-900 shadow-md disabled:opacity-70"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -89,6 +99,17 @@ export default function Home() {
 							</svg>
 						</button>
 					</div>
+				</div>
+
+				<div className="flex items-center gap-2">
+					{images.map((_, index) => (
+						<div
+							className={`rounded-full ${
+								imageIndex === index ? "bg-sky-500" : "bg-neutral-500"
+							} p-1`}
+							key={index}
+						></div>
+					))}
 				</div>
 			</main>
 		</>
