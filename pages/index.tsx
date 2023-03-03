@@ -101,12 +101,12 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-4">
 					{images.map((_, index) => (
 						<button
 							onClick={() => setImageIndex(index)}
-							className={`rounded-full ${
-								imageIndex === index ? "bg-sky-500" : "bg-neutral-500"
+							className={`rounded-full transition-all ${
+								imageIndex === index ? "scale-150 bg-sky-500" : "bg-neutral-500"
 							} p-1`}
 							key={index}
 						></button>
